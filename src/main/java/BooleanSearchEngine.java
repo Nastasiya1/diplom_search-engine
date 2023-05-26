@@ -56,7 +56,7 @@ public class BooleanSearchEngine implements SearchEngine {
 
     @Override
     public List<PageEntry> search(String word) {
-        String[] words = word.split(" ");
+        String[] words = word.toLowerCase().split(" ");
         List<PageEntry> total = new ArrayList<>();
         for (String s : words) {
             if (indexing.containsKey(s)) {
@@ -86,8 +86,6 @@ public class BooleanSearchEngine implements SearchEngine {
                             if (pageEntry.getCount() < pageEntry1.getCount()) {
                                 resultSet.add(pageEntry1);
                             }
-                        } else {
-                            resultSet.add(pageEntry);
                         }
                     }
                 }
