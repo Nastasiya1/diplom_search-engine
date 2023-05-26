@@ -6,7 +6,7 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class Client {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         try (
                 Socket socket = new Socket("127.0.0.1", 8989);
                 PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
@@ -24,8 +24,7 @@ public class Client {
                 responseStrBuilder.append("\n");
             }
             System.out.println(responseStrBuilder);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
