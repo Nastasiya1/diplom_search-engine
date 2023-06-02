@@ -4,16 +4,20 @@ import com.itextpdf.kernel.pdf.canvas.parser.PdfTextExtractor;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class BooleanSearchEngine implements SearchEngine {
 
-    Map<String, List<PageEntry>> indexing = new HashMap<>();
+    private Map<String, List<PageEntry>> indexing = new HashMap<>();
+
+    public Map<String, List<PageEntry>> getIndexing() {
+        return indexing;
+    }
 
     public BooleanSearchEngine(File pdfsDir) throws IOException {
-        List<String> stop = new ArrayList<>(Files.readAllLines(Paths.get("C:\\Users\\pomog\\IdeaProjects\\diplom\\diplom_search-engine\\stop-ru.txt")));
+        List<String> stop = new ArrayList<>(Files.readAllLines(Path.of("diplom_search-engine/stop-ru.txt")));
         String[] pdfNames = pdfsDir.list();
         for (String pdfName : pdfNames) {
             try (var doc = new PdfDocument(new PdfReader(pdfName))) {
@@ -66,12 +70,12 @@ public class BooleanSearchEngine implements SearchEngine {
         }
         if (words.length > 1) {
             List<PageEntry> mergedValues = new ArrayList<>();
-            for (int x = 0; x < total.size(); x++) {
-                for (int y = 0; y < total.size(); y++) {
-                    if (x > y) {
-                        if (total.get(x).getPdfName().equals(total.get(y).getPdfName())) {
-                            if (total.get(x).getPage() == total.get(y).getPage()) {
-                                PageEntry mergedValue = new PageEntry(total.get(x).getPdfName(), total.get(x).getPage(), total.get(x).getCount() + total.get(y).getCount());
+            for (int i = 0; i < total.size(); i++) {
+                for (int j = 0; j < total.size(); j++) {
+                    if (i > j) {
+                        if (total.get(i).getPdfName().equals(total.get(j).getPdfName())) {
+                            if (total.get(i).getPage() == total.get(j).getPage()) {
+                                PageEntry mergedValue = new PageEntry(total.get(i).getPdfName(), total.get(i).getPage(), total.get(i).getCount() + total.get(j).getCount());
                                 mergedValues.add(mergedValue);
                             }
                         }
