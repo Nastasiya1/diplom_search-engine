@@ -7,7 +7,7 @@ import java.net.Socket;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        BooleanSearchEngine engine = new BooleanSearchEngine(new File("diplom_search-engine/pdfs"));
+        BooleanSearchEngine engine = new BooleanSearchEngine(new File("pdfs"));
 
         try (ServerSocket serverSocket = new ServerSocket(8989)) {
             while (true) {

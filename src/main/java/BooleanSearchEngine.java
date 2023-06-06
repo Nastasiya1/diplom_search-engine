@@ -17,7 +17,7 @@ public class BooleanSearchEngine implements SearchEngine {
     }
 
     public BooleanSearchEngine(File pdfsDir) throws IOException {
-        List<String> stop = new ArrayList<>(Files.readAllLines(Path.of("diplom_search-engine/stop-ru.txt")));
+        List<String> stop = new ArrayList<>(Files.readAllLines(Path.of("stop-ru.txt")));
         String[] pdfNames = pdfsDir.list();
         for (String pdfName : pdfNames) {
             try (var doc = new PdfDocument(new PdfReader(pdfName))) {
