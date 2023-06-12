@@ -18,9 +18,10 @@ public class BooleanSearchEngine implements SearchEngine {
 
     public BooleanSearchEngine(File pdfsDir) throws IOException {
         List<String> stop = new ArrayList<>(Files.readAllLines(Path.of("stop-ru.txt")));
-        String[] pdfNames = pdfsDir.list();
-        for (String pdfName : pdfNames) {
-            try (var doc = new PdfDocument(new PdfReader(pdfName))) {
+
+        File[] pdfFiles = pdfsDir.listFiles();
+        for(File pdf : pdfFiles) {
+            try (var doc = new PdfDocument(new PdfReader(pdf))) {
                 for (int i = 1; i <= doc.getNumberOfPages(); i++) {
                     String text = PdfTextExtractor.getTextFromPage(doc.getPage(i));
                     var words = text.split("\\P{IsAlphabetic}+");
@@ -32,7 +33,7 @@ public class BooleanSearchEngine implements SearchEngine {
                         word = word.toLowerCase();
                         if (!stop.contains(word)) {
                             freqs.put(word, freqs.getOrDefault(word, 0) + 1);
-                            PageEntry pe = new PageEntry(pdfName, i, freqs.get(word));
+                            PageEntry pe = new PageEntry(pdf.getName(), i, freqs.get(word));
 
                             if (indexing.containsKey(word)) {
                                 List<PageEntry> previousValue = indexing.get(word);
